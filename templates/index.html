@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+<tbody>
+    {% for project in datas%}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ project.project_name }}</td>
+            <td>{{ project.leader }}</td>
+            <td>{{ project.app_name }}</td>
+            </tr>
+        {% endfor %}
+</tbody>
+
+</head>
+<body>
+
+</body>
+</html>
