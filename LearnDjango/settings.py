@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     #1、注册子应用
     #2、子应用名.apps.子应用名首字母大写Config
     'projects.apps.ProjectsConfig',
+    'interfaces.apps.InterfacesConfig',
 ]
 
 MIDDLEWARE = [
@@ -55,20 +56,16 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'LearnDjango.urls'
 
 TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
-        ,
-        'APP_DIRS': True,
-        'OPTIONS': {
+    dict(BACKEND='django.template.backends.django.DjangoTemplates', DIRS=[os.path.join(BASE_DIR, 'templates')],
+         APP_DIRS=True, OPTIONS={
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
             ],
-        },
-    },
+        }),
 ]
 
 WSGI_APPLICATION = 'LearnDjango.wsgi.application'
@@ -76,15 +73,28 @@ WSGI_APPLICATION = 'LearnDjango.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
+#
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        #指定引擎
+        'ENGINE': 'django.db.backends.mysql',
+        #指定数据库名称
+        'NAME': 'mydjango',
+        #指定用户名：
+        'USER': 'root',
+        #密码
+        'PASSWORD':'123456',
+        'HOST':'localhost',
+        'PORT':3306
     }
 }
 
-
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 

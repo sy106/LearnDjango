@@ -28,5 +28,9 @@ urlpatterns = [
      #如果为类视图，path第二个参数为类视图名.as_view()
      path('', views.IndexView.as_view()),
     # path('index/',index),
+    #  path('<int:pk>/',views.IndexView.as_view())
+     #int为路径参数类型转换器
+     #：左边为转换器，右边为参数名
+     #int,slug,uuid,
 
 ]
