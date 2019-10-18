@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-from projects.views import index
+# from projects.views import index
 
 #全局路由配置
 #1、urlpatterns是固定名称列表
@@ -25,5 +25,6 @@ from projects.views import index
 urlpatterns = [
     path('admin/', admin.site.urls),
     # path('index/',index),
-    path('index/',include('projects.urls')),
+    path('',include('projects.urls')),
+    path('api/',include('rest_framework.urls')),
 ]
