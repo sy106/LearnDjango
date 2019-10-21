@@ -24,8 +24,8 @@ from rest_framework.routers import DefaultRouter
 #1、每个应用（模块）都会维护一个子路由（当前应用的路由信息）
 #2、跟主路由一样，也是从上到下进行匹配
 #3、能匹配上则执行path第二个参数指定的视图，匹配不上，则抛出404异常
-router = DefaultRouter()
-router.register(r'projects',views.ProjectViewSet)
+# router = DefaultRouter()
+# router.register(r'projects',views.ProjectViewSet)
 urlpatterns = [
      #如果为类视图，path第二个参数为类视图名.as_view()
      # path('', views.IndexView.as_view()),
@@ -38,4 +38,4 @@ urlpatterns = [
      path('projects/<int:pk>/', views.ProjectDetail.as_view()),
 
 ]
-urlpatterns += router.urls
+# urlpatterns += router.urls
