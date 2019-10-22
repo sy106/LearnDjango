@@ -106,7 +106,7 @@ from markdown import serializers
 from rest_framework.viewsets import ModelViewSet
 # from projects.serializer import ProjectsModelSerialzer
 
-from projects.serializer import ProjectsSerialzer
+from projects.serializer import ProjectsModelSerialzer
 import json
 
 from projects.models import Project
@@ -142,7 +142,7 @@ class ProjectList(View):
         #     })
             #JsonResponse第一个参数默认只能为dict字典，如果要设为其他类型，需要将safe=Flase
         #如果返回的是列表数据（多条数据时），那么需要添加many=True
-        serializer = ProjectsSerialzer(instance=project_qs,many=True)
+        serializer = ProjectsModelSerialzer(instance=project_qs,many=True)
         return JsonResponse(serializer.data,safe=False)
     def post(self,request):
         '''
@@ -156,7 +156,7 @@ class ProjectList(View):
         json_data = request.body.decode('UTF-8')
         python_data = json.loads(json_data,encoding='UTF-8')
 
-        serializer = ProjectsSerialzer(data=python_data)
+        serializer = ProjectsModelSerialzer(data=python_data)
 
         #校验前端输入的数据
         #1.调用序列化器对象的is_vaild方法，开始校验前端参数,
@@ -217,7 +217,7 @@ class ProjectDetail(View):
         # }
 
         #通过模型类对象（或者查询集），传给instance可进行序列化操作
-        serializer=ProjectsSerialzer(instance=project)
+        serializer=ProjectsModelSerialzer(instance=project)
         return JsonResponse(serializer.data)
 
     def put(self,request,pk):
@@ -232,7 +232,7 @@ class ProjectDetail(View):
         # 比如：是否为json, c传递的项目数据是否符合要求，有些必传参数是否携带等
         json_data = request.body.decode('UTF-8')
         python_data = json.loads(json_data, encoding='UTF-8')
-        serializer = ProjectsSerialzer(instance=project,data=python_data)
+        serializer = ProjectsModelSerialzer(instance=project,data=python_data)
         # serializer = ProjectsSerialzer(data=python_data)
         # serializer.is_valid(raise_exception=True)
 
