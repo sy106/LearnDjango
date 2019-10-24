@@ -249,7 +249,7 @@ class ProjectDetail(GenericAPIView):
     #     except Project.DoesNotExist:
     #         raise Http404
 
-    def get(self,request):
+    def get(self,request,pk):
         #1.校验前端传递的pk（项目ID）值，类型是否正确（正整数），在数据库中是否存在等
         #省略
         #2.获取指定PK值的项目
@@ -270,7 +270,7 @@ class ProjectDetail(GenericAPIView):
         #使用get_serializer获取序列化器类
         serializer = self.get_serializer(instance=project)
         # return JsonResponse(serializer.data)
-        return  Response(serializer.data)
+        return  Response(serializer.data,status=status.HTTP_200_OK)
 
     def put(self,request):
         # 1.校验前端传递的pk（项目ID）值，类型是否正确（正整数），在数据库中是否存在等
