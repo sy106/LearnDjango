@@ -272,7 +272,7 @@ class ProjectDetail(GenericAPIView):
         # return JsonResponse(serializer.data)
         return  Response(serializer.data,status=status.HTTP_200_OK)
 
-    def put(self,request):
+    def put(self,request,pk):
         # 1.校验前端传递的pk（项目ID）值，类型是否正确（正整数），在数据库中是否存在等
         # 省略
         # 2.获取指定PK值的项目
@@ -318,7 +318,7 @@ class ProjectDetail(GenericAPIView):
         # serializer = ProjectsSerialzer(instance=project)
         return Response(serializer.data,status=201)
 
-    def delete(self):
+    def delete(self,request,pk):
         # 1.校验前端传递的pk（项目ID）值，类型是否正确（正整数），在数据库中是否存在等
         # 省略
         # 2.获取指定PK值的项目
