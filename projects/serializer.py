@@ -83,15 +83,15 @@ class ProjectsModelSerialzer(serializers.ModelSerializer):
         model = Project
         #2.指定为模型类的哪些字段，来生成序列化器
         # fields = "__all__"
-        # fields = ('id','name','leader','tester','programer','publish_app')
-        exclude= ('publish_app','desc')#排除掉哪些
-        read_only_fields =('leader','tester')
-        extra_kwargs={
-            'leader':{
-
-                'error_message':{'max_length':'最大长度不超过50字节',}
-            }
-        }
+        fields = ('id','name','leader','tester','programer','publish_app')
+        # exclude= ('publish_app','desc')#排除掉哪些
+        # read_only_fields =('leader','tester')
+        # extra_kwargs={
+        #     'leader':{
+        #
+        #         'error_message':{'max_length':'最大长度不超过50字节'}
+        #     }
+        # }
     def validate_name(self,value):
         if not value.endswith('项目'):
             raise serializers.ValidationError('项目必须以“项目”结尾')
