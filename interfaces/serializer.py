@@ -24,7 +24,7 @@ class InterfaceModelSerialzer(serializers.ModelSerializer):
     # project =serializers.StringRelatedField(label='所属项目')
 
     #3.SlugRelatedField,此字段将被序列化为关联对象的指定字段的数据
-    # project = serializers.SlugRelatedField(slug_field='tester',read_only=True)
+    project = serializers.SlugRelatedField(slug_field='tester',read_only=True)
     # 4.SlugRelatedField,此字段将被序列化为关联对象的指定字段的数据
     # project = ProjectsSerialzer(label='所属项目',read_only=True)
 
