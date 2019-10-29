@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import datetime
+
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -25,7 +28,7 @@ SECRET_KEY = 'p@zx#wt!jtbma3-2w!l!qfjr!n*j3xm4ytrl+_x6960i@dt=91'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -40,10 +43,16 @@ INSTALLED_APPS = [
     #1、注册子应用
     #2、子应用名.apps.子应用名首字母大写Config
     'rest_framework',
+    'django_filters',
+    'drf_yasg',
+
     'projects.apps.ProjectsConfig',
     'interfaces.apps.InterfacesConfig',
-    'django_filters',
+    'user.apps.UserConfig',
+
 ]
+
+
 
 REST_FRAMEWORK={
     #默认响应渲染类
@@ -62,7 +71,23 @@ REST_FRAMEWORK={
         # 'rest_framework.pagination.PageNumberPagination',
     #同时必须指定每页显示的条数
     # 'PAGE_SIZE':3,
+    #指定用于支持coreapi的schema
+     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
 
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication'
+    ],
+
+}
+
+JWT_AUTH = {
+    # 默认5分钟过期, 可以使用JWT_EXPIRATION_DELTA来设置过期时间
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1),
+    'JWT_AUTH_HEADER_PREFIX': 'B',
+    'JWT_RESPONSE_PAYLOAD_HANDLER':
+        'utils.jwt_handler.jwt_response_payload_handler',
 }
 
 MIDDLEWARE = [
@@ -78,8 +103,10 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'LearnDjango.urls'
 
 TEMPLATES = [
-    dict(BACKEND='django.template.backends.django.DjangoTemplates', DIRS=[os.path.join(BASE_DIR, 'templates')],
-         APP_DIRS=True, OPTIONS={
+    dict(BACKEND='django.template.backends.django.DjangoTemplates',
+         DIRS=[os.path.join(BASE_DIR, 'templates')],
+         APP_DIRS=True,
+         OPTIONS={
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
@@ -135,7 +162,46 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(asctime)s - [%(levelname)s] - [msg]%(message)s'
+        },
+        'simple': {
+            'format': '%(asctime)s - [%(levelname)s] - %(name)s - [msg]%(message)s - [%(filename)s:%(lineno)d ]'
+        },
+    },
+    'filters': {
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(BASE_DIR, "logs/mytest.log"),  # 日志文件的位置
+            'maxBytes': 100 * 1024 * 1024,
+            'backupCount': 10,
+            'formatter': 'verbose'
+        },
+    },
+    'loggers': {
+        'mytest': {  # 定义了一个名为mytest的日志器
+            'handlers': ['console', 'file'],
+            'propagate': True,
+            'level': 'DEBUG',  # 日志器接收的最低日志级别
+        },
+    }
+}
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 

@@ -9,6 +9,7 @@ from rest_framework.serializers import ModelSerializer
 from rest_framework.validators import UniqueValidator
 from projects.models import Project
 from rest_framework import serializers
+from interfaces.models import Interfaces
 
 #创建自定义校验器
 #1.第一个参数为字段的值
@@ -82,8 +83,8 @@ class ProjectsModelSerialzer(serializers.ModelSerializer):
         #1.指定参考哪个模型类来创建
         model = Project
         #2.指定为模型类的哪些字段，来生成序列化器
-        # fields = "__all__"
-        fields = ('id','name','leader','tester','programer','publish_app')
+        fields = "__all__"
+        # fields = ('id','name','leader','tester','programer','publish_app')
         # exclude= ('publish_app','desc')#排除掉哪些
         # read_only_fields =('leader','tester')
         # extra_kwargs={
@@ -107,3 +108,24 @@ class ProjectsModelSerialzer(serializers.ModelSerializer):
         if 'icon' not in attrs['tester'] and 'icon' not in attrs['leader']:
             raise serializers.ValidationError('"icon"必须是项目负责人或项目测试人员')
         return attrs
+
+
+class ProjectNameSerializer(serializers.ModelSerializer):
+    class Meta:
+        #1.指定参考哪个模型类来创建
+        model = Project
+        fields = ('id','name')
+
+class InterfacesNameSerializer(serializers.ModelSerializer):
+    class Meta:
+        #1.指定参考哪个模型类来创建
+        model = Interfaces
+        fields = ('id','name','tester')
+
+class InterfacesByProjectIdSerializer(serializers.ModelSerializer):
+    interfaces_set = InterfacesNameSerializer(many = True)
+    class Meta:
+        #1.指定参考哪个模型类来创建
+        model = Project
+        # fields = "__all__"
+        fields = ('id','interfaces_set')#名称要与数据库名称一致
